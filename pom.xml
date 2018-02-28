@@ -107,6 +107,7 @@
             <artifactId>wicket-core</artifactId>
             <version>${wicket.version}</version>
             <exclusions>
+                <!-- Exclude older version of SLF4J in favor of new one -->
                 <exclusion>
                     <groupId>org.slf4j</groupId>
                     <artifactId>slf4j-api</artifactId>
@@ -294,7 +295,12 @@
                             <value>${project.build.directory}/test-classes</value>
                         </systemProperty>
                     </systemProperties>
-                    <jettyXml>${project.basedir}/src/test/jetty/jetty.xml,${project.basedir}/src/test/jetty/jetty-ssl.xml,${project.basedir}/src/test/jetty/jetty-http.xml,${project.basedir}/src/test/jetty/jetty-https.xml</jettyXml>
+                    <jettyXml>
+                        ${project.basedir}/src/test/jetty/jetty.xml,
+                        ${project.basedir}/src/test/jetty/jetty-ssl.xml,
+                        ${project.basedir}/src/test/jetty/jetty-http.xml,
+                        ${project.basedir}/src/test/jetty/jetty-https.xml
+                    </jettyXml>
                 </configuration>
             </plugin>
 
@@ -315,6 +321,7 @@
             </activation>
 
             <properties>
+                <!-- Wicket configuration which is replaced in web.xml -->
                 <wicket.configuration>development</wicket.configuration>
             </properties>
 

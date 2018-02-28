@@ -27,6 +27,6 @@
 
     <context:annotation-config />
 
-    <context:component-scan base-package="info.exac" />
+    <context:component-scan base-package="info.exac.wicket_spring_hibernate" />
 
 </beans:beans>

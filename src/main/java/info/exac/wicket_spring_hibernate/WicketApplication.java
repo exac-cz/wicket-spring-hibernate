@@ -12,13 +12,21 @@ import org.springframework.stereotype.Component;
 
 
 /**
- * @author exac
+ *
+ * Must be marked with @Component annotation and context aware, because of correct working
+ * dependecy injection in testing.
+ *
+ * @author Miroslav Exner
  * @date 28/02/2018 13:56
  */
 @Component
 public class WicketApplication extends WebApplication implements ApplicationContextAware {
 
+
+    /** Application context - is necessary be set this way for testing work correctly */
     private ApplicationContext ctx;
+
+
 
     @Override
     public Class<? extends Page> getHomePage() {

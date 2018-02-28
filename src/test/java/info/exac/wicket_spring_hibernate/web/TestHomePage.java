@@ -15,7 +15,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 
 /**
- * @author exac
+ * JUnit test ready to test current wicket application. Supports Spring dependency injection with current
+ * application context.
+ *
+ * @author Miroslav Exner
  * @date 28/02/2018 14:54
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -23,32 +26,40 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class TestHomePage extends AbstractJUnit4SpringContextTests{
 
+
+    /** Wicket tester */
     private WicketTester tester;
 
-//    @Autowired
-//    private ApplicationContext ctx;
 
+    /** Injected application - with application context connected */
     @Autowired
     private WicketApplication wicketApplication;
 
 
+
     @Before
     public void setUp() {
+        // Creates wicket tester for current wicket application with application context connected
         tester = new WicketTester(wicketApplication);
     }
 
 
+
     @Test
     public void homepageRendersSuccessfully() {
-        //start and render the test page
+        // Start and render the test page
         tester.startPage(HomePage.class);
 
-        //assert rendered page class
+        // Asert rendered page class
         tester.assertRenderedPage(HomePage.class);
-        tester.assertComponent("version", Label.class);
 
+        // Assert rendered components
+        tester.assertComponent("version", Label.class);
         tester.assertComponent("springWorking", Label.class);
+
+        // Assert value of label
         tester.assertLabel("springWorking", "Working");
     }
+
 
 }

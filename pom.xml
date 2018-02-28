@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>info.exac</groupId>
+    <artifactId>wicket-spring-hibernate</artifactId>
+    <version>0.0.1</version>
+    <packaging>war</packaging>
+
+
+
+    <name>Basic Wicket-Spring-Hibernate app</name>
+
+    <description>
+        Basic web application based on Wicket, Spring, Hibernate
+    </description>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+
+
+    <properties>
+        <!-- Java properties -->
+        <java.version>1.8</java.version>
+        <java.source.encoding>UTF-8</java.source.encoding>
+
+        <!-- Project properties -->
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>${java.source.encoding}</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>${java.source.encoding}</project.reporting.outputEncoding>
+
+        <!-- Versions of dependencies -->
+        <spring.version>5.0.4.RELEASE</spring.version>
+        <wicket.version>7.10.0</wicket.version>
+        <slf4j.version>1.7.25</slf4j.version>
+        <log4j.version>1.2.17</log4j.version>
+
+        <!-- Testing -->
+        <junit.version>4.12</junit.version>
+        <jetty9.version>9.2.19.v20160908</jetty9.version>
+
+    </properties>
+
+
+
+    <repositories>
+        <repository>
+            <id>central</id>
+            <url>http://central.maven.org/maven2/</url>
+        </repository>
+    </repositories>
+
+
+
+    <dependencies>
+
+
+        <!-- === SPRING === -->
+
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+
+            <exclusions>
+                <!-- Exclude Commons Logging in favor of SLF4j -->
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+            <scope>compile</scope>
+            <exclusions>
+                <!-- Exclude Commons Logging in favor of SLF4j -->
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+
+        <!-- === WICKET === -->
+
+        <!-- https://mvnrepository.com/artifact/org.apache.wicket/wicket -->
+        <dependency>
+            <groupId>org.apache.wicket</groupId>
+            <artifactId>wicket-core</artifactId>
+            <version>${wicket.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.wicket/wicket-spring -->
+        <dependency>
+            <groupId>org.apache.wicket</groupId>
+            <artifactId>wicket-spring</artifactId>
+            <version>${wicket.version}</version>
+        </dependency>
+
+
+        <!-- === LOGGING === -->
+
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <!-- add commons logging to slf4j bridge to classpath -->
+        <!-- acts as jcl but routes commons-logging calls to slf4j -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- add log4j binding to classpath -->
+        <!-- routes slf4j calls to log4j -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- add log4j to classpath -->
+        <!-- does the logging -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+
+
+        <!-- === TESTING === -->
+
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.eclipse.jetty.aggregate</groupId>
+            <artifactId>jetty-all</artifactId>
+            <version>${jetty9.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+
+    </dependencies>
+
+
+
+    <build>
+        <sourceDirectory>
+            ${project.basedir}/src/main/java
+        </sourceDirectory>
+
+
+        <resources>
+            <resource>
+                <filtering>false</filtering>
+                <directory>${project.basedir}/src/main/java</directory>
+                <includes>
+                    <include>**</include>
+                </includes>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </resource>
+
+            <resource>
+                <filtering>false</filtering>
+                <directory>${project.basedir}/src/main/resources</directory>
+                <includes>
+                    <include>**</include>
+                </includes>
+            </resource>
+        </resources>
+
+        <testSourceDirectory>
+            ${project.basedir}/src/test/java
+        </testSourceDirectory>
+
+        <testResources>
+            <testResource>
+                <directory>${project.basedir}/src/test/resources</directory>
+            </testResource>
+        </testResources>
+
+
+        <plugins>
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${java.source.encoding}</encoding>
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
+                </configuration>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <webResources>
+
+                        <resource>
+                            <filtering>true</filtering>
+                            <directory>src/main/webapp</directory>
+                            <includes>
+                                <include>**</include>
+                            </includes>
+                        </resource>
+
+                        <!--<resource>-->
+                            <!--<filtering>false</filtering>-->
+                            <!--<directory>src/main/webapp</directory>-->
+                            <!--<includes>-->
+                                <!--<include>**/*</include>-->
+                            <!--</includes>-->
+                            <!--<excludes>-->
+                                <!--<exclude>-->
+                                    <!--**/*.xml-->
+                                <!--</exclude>-->
+                            <!--</excludes>-->
+                        <!--</resource>-->
+
+                    </webResources>
+                    <!--<warName>${project.artifactId}-${project.version}b${prefix.revision}-${profileName}</warName>-->
+                    <warSourceDirectory>src/main/webapp</warSourceDirectory>
+                    <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+                </configuration>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>${jetty9.version}</version>
+                <configuration>
+                    <systemProperties>
+                        <systemProperty>
+                            <name>maven.project.build.directory.test-classes</name>
+                            <value>${project.build.directory}/test-classes</value>
+                        </systemProperty>
+                    </systemProperties>
+                    <jettyXml>${project.basedir}/src/test/jetty/jetty.xml,${project.basedir}/src/test/jetty/jetty-ssl.xml,${project.basedir}/src/test/jetty/jetty-http.xml,${project.basedir}/src/test/jetty/jetty-https.xml</jettyXml>
+                </configuration>
+            </plugin>
+
+
+        </plugins>
+
+    </build>
+
+
+
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+
+            <properties>
+                <wicket.configuration>development</wicket.configuration>
+            </properties>
+
+            <build>
+                <!--<filters>-->
+                    <!--<filter>profiles/isnp.dev.properties</filter>-->
+                <!--</filters>-->
+                <resources>
+                    <!--<resource>-->
+                        <!--<filtering>true</filtering>-->
+                        <!--<directory>src/main/resources</directory>-->
+                    <!--</resource>-->
+
+                    <resource>
+                        <filtering>true</filtering>
+                        <directory>src/main/webapp/WEB-INF</directory>
+                        <includes>
+                            <include>web.xml</include>
+                        </includes>
+                    </resource>
+
+                </resources>
+            </build>
+
+        </profile>
+
+        <profile>
+            <id>test</id>
+
+            <properties>
+                <wicket.configuration>deployment</wicket.configuration>
+            </properties>
+
+            <build>
+                <resources>
+
+                    <resource>
+                        <filtering>true</filtering>
+                        <directory>src/main/webapp/WEB-INF</directory>
+                        <includes>
+                            <include>web.xml</include>
+                        </includes>
+                    </resource>
+
+                </resources>
+            </build>
+        </profile>
+
+        <profile>
+            <id>prod</id>
+
+            <properties>
+                <wicket.configuration>deployment</wicket.configuration>
+            </properties>
+
+            <build>
+                <resources>
+
+                    <resource>
+                        <filtering>true</filtering>
+                        <directory>src/main/webapp/WEB-INF</directory>
+                        <includes>
+                            <include>web.xml</include>
+                        </includes>
+                    </resource>
+
+                </resources>
+            </build>
+        </profile>
+
+    </profiles>
+
+
+
+</project>

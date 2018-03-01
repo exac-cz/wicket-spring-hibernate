@@ -3,6 +3,7 @@ package info.exac.wicket_spring_hibernate.web;
 import info.exac.wicket_spring_hibernate.service.BasicService;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
@@ -25,7 +26,7 @@ public class HomePage extends WebPage {
         add(new Label("version", getApplication().getFrameworkSettings().getVersion()));
         add(new Label("springWorking", basicService.getSpringStatus()));
 
-
+        add(new BookmarkablePageLink<SecondPage>("secondPageLink", SecondPage.class));
     }
 
 

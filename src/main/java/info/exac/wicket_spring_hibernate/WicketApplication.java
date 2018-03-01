@@ -40,8 +40,11 @@ public class WicketApplication extends WebApplication implements ApplicationCont
         super.init();
 
         // Enable Spring Injector
-        getComponentInstantiationListeners().add(new SpringComponentInjector(this, ctx, true));
-
+        SpringComponentInjector injector =
+                (ctx == null)
+                        ? new SpringComponentInjector(this)
+                        : new SpringComponentInjector(this, ctx, true);
+        getComponentInstantiationListeners().add(injector);
 
     }
 

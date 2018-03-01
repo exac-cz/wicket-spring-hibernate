@@ -2,8 +2,10 @@ package info.exac.wicket_spring_hibernate.web;
 
 import info.exac.wicket_spring_hibernate.WicketApplication;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations={"/applicationContext.xml"})
-@DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+//@DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class TestHomePage extends AbstractJUnit4SpringContextTests{
 
 
@@ -59,6 +61,16 @@ public class TestHomePage extends AbstractJUnit4SpringContextTests{
 
         // Assert value of label
         tester.assertLabel("springWorking", "Working");
+
+        // Assert link and simulate click
+        tester.assertComponent("secondPageLink", BookmarkablePageLink.class);
+        tester.clickLink("secondPageLink", false);
+
+        // Assert linked page
+        tester.assertRenderedPage(SecondPage.class);
+        tester.assertComponent("helloLabel", Label.class);
+        tester.assertLabel("helloLabel", "Hello");
+
     }
 
 

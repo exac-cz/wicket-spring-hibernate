@@ -17,6 +17,10 @@
         Basic web application based on Wicket, Spring, Hibernate
     </description>
 
+    <scm>
+        <url>scm:git:https://github.com/exac-cz/wicket-spring-hibernate.git</url>
+    </scm>
+
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
@@ -41,6 +45,7 @@
         <!-- Versions of dependencies -->
         <spring.version>5.0.4.RELEASE</spring.version>
         <wicket.version>7.10.0</wicket.version>
+        <hibernate.version>5.2.13.Final</hibernate.version>
         <slf4j.version>1.7.25</slf4j.version>
         <log4j.version>1.2.17</log4j.version>
 
@@ -97,6 +102,11 @@
             </exclusions>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
 
 
         <!-- === WICKET === -->
@@ -123,8 +133,28 @@
         </dependency>
 
 
-        <!-- === LOGGING === -->
 
+        <!-- === HIBERNATE === -->
+
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+
+        <!-- FIXME BEGIN "Put dependency on JDBC driver to proper database" -->
+        <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.196</version>
+            <!--<scope>test</scope>-->
+        </dependency>
+        <!-- FIXME END -->
+
+        <!-- === LOGGING === -->
 
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -198,7 +228,6 @@
             ${project.basedir}/src/main/java
         </sourceDirectory>
 
-
         <resources>
             <resource>
                 <filtering>false</filtering>
@@ -212,12 +241,24 @@
             </resource>
 
             <resource>
+                <filtering>true</filtering>
+                <directory>${project.basedir}/src/main/resources</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+
+            <resource>
                 <filtering>false</filtering>
                 <directory>${project.basedir}/src/main/resources</directory>
                 <includes>
                     <include>**</include>
                 </includes>
+                <excludes>
+                    <exclude>**/*.xml</exclude>
+                </excludes>
             </resource>
+
         </resources>
 
         <testSourceDirectory>
@@ -231,8 +272,8 @@
         </testResources>
 
 
-        <plugins>
 
+        <plugins>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -246,7 +287,6 @@
                     <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
-
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -283,7 +323,6 @@
                 </configuration>
             </plugin>
 
-
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
@@ -303,7 +342,6 @@
                     </jettyXml>
                 </configuration>
             </plugin>
-
 
         </plugins>
 
@@ -326,9 +364,11 @@
             </properties>
 
             <build>
-                <!--<filters>-->
-                    <!--<filter>profiles/isnp.dev.properties</filter>-->
-                <!--</filters>-->
+                <filters>
+                    <filter>${project.basedir}/src/main/filters/global.properties</filter>
+                    <filter>${project.basedir}/src/main/filters/profile.dev.properties</filter>
+                </filters>
+
                 <resources>
                     <!--<resource>-->
                         <!--<filtering>true</filtering>-->
@@ -356,6 +396,11 @@
             </properties>
 
             <build>
+                <filters>
+                    <filter>${project.basedir}/src/main/filters/global.properties</filter>
+                    <filter>${project.basedir}/src/main/filters/profile.test.properties</filter>
+                </filters>
+
                 <resources>
 
                     <resource>
@@ -378,6 +423,11 @@
             </properties>
 
             <build>
+                <filters>
+                    <filter>${project.basedir}/src/main/filters/global.properties</filter>
+                    <filter>${project.basedir}/src/main/filters/profile.prod.properties</filter>
+                </filters>
+
                 <resources>
 
                     <resource>

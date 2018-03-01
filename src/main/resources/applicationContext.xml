@@ -25,8 +25,60 @@
     <!--     <context:property-placeholder location="classpath:isnp.global.properties" /> -->
 
 
+
+    <!-- === CONTEXT === -->
+
     <context:annotation-config />
 
-    <context:component-scan base-package="info.exac.wicket_spring_hibernate" />
+    <context:component-scan base-package="${componentScan.basePackage}" />
+
+
+
+    <!-- === PERSISTENCE === -->
+
+    <beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <beans:property name="driverClassName" value="${database.driver}"   />
+        <beans:property name="url"             value="${database.url}"      />
+        <beans:property name="username"        value="${database.user}"     />
+        <beans:property name="password"        value="${database.password}" />
+    </beans:bean>
+
+
+
+    <beans:bean id="entityManagerFactoryBean"  class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+
+        <beans:property name="dataSource" ref="dataSource" />
+
+        <beans:property name="persistenceUnitName" value="${persistenceUnitName}" />
+
+        <beans:property name="packagesToScan">
+            <beans:list>
+                <beans:value>${entityManager.packagesToScan}</beans:value>
+            </beans:list>
+        </beans:property>
+
+        <beans:property name="jpaVendorAdapter">
+            <beans:bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+        </beans:property>
+
+        <beans:property name="jpaProperties">
+            <beans:props>
+                <beans:prop key="hibernate.archive.autodetection">class,hbm</beans:prop>
+                <beans:prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</beans:prop>
+                <beans:prop key="hibernate.show_sql">${hibernate.show_sql}</beans:prop>
+                <beans:prop key="hibernate.dialect">${hibernate.dialect}</beans:prop>
+            </beans:props>
+        </beans:property>
+    </beans:bean>
+
+
+
+    <beans:bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <beans:property name="entityManagerFactory" ref="entityManagerFactoryBean" />
+    </beans:bean>
+
+
+    <tx:annotation-driven />
+
 
 </beans:beans>

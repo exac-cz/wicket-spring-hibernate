@@ -18,6 +18,11 @@ public class Person {
     private Long id;
 
 
+    @Version
+    @Column(name = "version")
+    private Long version;
+
+
     @Column(name = "name", length = 100)
     private String name;
 
@@ -35,6 +40,18 @@ public class Person {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+
+
+    public Long getVersion() {
+        return version;
+    }
+
+
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
 

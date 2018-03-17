@@ -30,7 +30,7 @@
 
     <context:annotation-config />
 
-    <context:component-scan base-package="${componentScan.basePackage}" />
+    <context:component-scan base-package="info.exac.wicket_spring_hibernate" />
 
 
 

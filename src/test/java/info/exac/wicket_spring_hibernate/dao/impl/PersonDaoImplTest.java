@@ -11,6 +11,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 
@@ -35,29 +37,44 @@ public class PersonDaoImplTest extends AbstractJUnit4SpringContextTests {
         Person person = null;
 
         // Try to load something from empty DB
-        person = personDao.getById(1L);
+        person = personDao.findById(1L);
         assertNull(person);
 
         // Persist one record
         person = new Person();
         person.setName("Foo");
         Long id = personDao.persist(person).getId();
+        assertNotNull(id);
+        assertNotEquals((Long) 0L, id);
         person = null;
 
         // Retrieve that record
-        person = personDao.getById(id);
+        person = personDao.findById(id);
         assertNotNull(person);
         assertEquals("Foo", person.getName());
 
         // Modifiy that record
         person.setName("Qux");
-        id = personDao.update(person).getId();
+        id = personDao.merge(person).getId();
         person = null;
 
         // Retrieve that record
-        person = personDao.getById(id);
+        person = personDao.findById(id);
         assertNotNull(person);
         assertEquals("Qux", person.getName());
+
+        List<Person> persons = personDao.findAll();
+        assertTrue(persons.size() > 0);
+
+        // Remove record
+//        personDao.remove(person);
+//        person = null;
+//        person = personDao.findById(id);
+//        assertNull(person);
+
     }
+
+
+
 
 }

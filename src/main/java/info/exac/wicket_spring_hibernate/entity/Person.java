@@ -1,6 +1,7 @@
 package info.exac.wicket_spring_hibernate.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 
 
@@ -10,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "person")
-public class Person {
+public class Person implements Serializable {
 
     @Id
     @GeneratedValue

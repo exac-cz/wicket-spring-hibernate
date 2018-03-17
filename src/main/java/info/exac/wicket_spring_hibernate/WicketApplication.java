@@ -1,6 +1,9 @@
 package info.exac.wicket_spring_hibernate;
 
 import info.exac.wicket_spring_hibernate.web.HomePage;
+import info.exac.wicket_spring_hibernate.web.page.create.CreatePersonPage;
+import info.exac.wicket_spring_hibernate.web.page.detail.PersonDetailPage;
+import info.exac.wicket_spring_hibernate.web.page.list.PersonListPage;
 import org.apache.wicket.Page;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
@@ -45,6 +48,11 @@ public class WicketApplication extends WebApplication implements ApplicationCont
                         ? new SpringComponentInjector(this)
                         : new SpringComponentInjector(this, ctx, true);
         getComponentInstantiationListeners().add(injector);
+
+        mountPage("/list", PersonListPage.class);
+        mountPage("/create", CreatePersonPage.class);
+        mountPage("/detail/${personId}", PersonDetailPage.class);
+//        mountPage("/edit/${personId}");
 
     }
 
